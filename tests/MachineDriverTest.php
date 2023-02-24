@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Tests\Kata;
 
 use Kata\FizzBuzz;
+use Kata\MachineDriver;
+use Kata\UserRequestBuilder;
 use PHPUnit\Framework\TestCase;
 
-class FizzBuzzTest extends TestCase
+class MachineDriverTest extends TestCase
 {
-    private FizzBuzz $fizzBuzz;
+    private MachineDriver $machineDriver;
 
     public function setUp(): void
     {
