@@ -30,13 +30,6 @@ class MachineDriver
                 return "M:missing-money:{$missingMoney}";
             }
 
-            if ($requestedDrink === "chocolate") {
-                return $drink->toCommand($request->extraHot);
-            } elseif ($requestedDrink === "coffee") {
-                return $drink->toCommand($request->extraHot);
-            } elseif ($requestedDrink === "orangeJuice") {
-                return $drink->toCommand($request->extraHot);
-            }
             return $drink->toCommand($request->extraHot);
         }
         throw new \Exception();
