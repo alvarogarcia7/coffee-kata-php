@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  php:
+    image: composer:2.3
+    tty: true
+    volumes:
+      - "${PWD}:/app/"
+    command: bash

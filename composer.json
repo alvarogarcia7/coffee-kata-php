@@ -1,0 +1,36 @@
+{
+    "name": "alvarogarcia7/boilerplate-kata-php",
+    "description": "A simple PHP boilerplate to kickstart a kata or a coding dojo",
+    "version": "0.0.1",
+    "keywords": ["kata", "practice", "coding dojo", "dojo"],
+    "require": {
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "symfony/process": "^5.1",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alvaro Garcia",
+            "email": "alvarogarcia7@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kata\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Kata\\": "tests/"
+        }
+    },
+    "bin": ["src/main.php"]
+}
