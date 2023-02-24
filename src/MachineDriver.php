@@ -15,10 +15,11 @@ class MachineDriver
         } elseif ($request->drink === "coffee") {
             return "C:2:0";
         }
-        if ($request->availableMoney >= 0.4) {
+        $teaPrice = 0.4;
+        if ($request->availableMoney >= $teaPrice) {
             return "T:1:0";
         } else {
-            $missingMoney = 0.4 - $request->availableMoney;
+            $missingMoney = $teaPrice - $request->availableMoney;
             return "M:missing-money:{$missingMoney}";
         }
     }
