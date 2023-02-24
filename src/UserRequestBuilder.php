@@ -49,4 +49,9 @@ class UserRequestBuilder
         $this->drink = "coffee";
         return $this;
     }
+
+    public function printMessage(string $string): self
+    {
+        return $this;
+    }
 }
