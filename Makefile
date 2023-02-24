@@ -1,5 +1,8 @@
 test: up
-	docker-compose exec php ./bin/phpunit
+	docker-compose exec ${DOCKER_OPTIONS} php ./bin/phpunit
+
+test-ci: up
+	DOCKER_OPTIONS="-T" $(MAKE) test
 
 up:
 	docker-compose up -d
