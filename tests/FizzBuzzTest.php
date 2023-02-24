@@ -14,12 +14,14 @@ class FizzBuzzTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->fizzBuzz = new FizzBuzz();
+        $this->machineDriver = new MachineDriver();
     }
 
     /** @test */
-    public function make_tea_with_a_sugar_and_a_stick()
+    public function make_tea_with_1_sugar_and_a_stick()
     {
-        $this->assertEquals("Fizz", $this->fizzBuzz->convert(1));
+        $request = (new UserRequestBuilder())->tea()->withSugar()->build();
+
+        $this->assertEquals("T:1:0", $this->machineDriver->process($request));
     }
 }
