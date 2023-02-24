@@ -31,7 +31,8 @@ class MachineDriver
             }
 
             if ($requestedDrink === "chocolate") {
-                return "H::";
+                $drink = $request->extraHot ? "Hh" : "H";
+                return "{$drink}::";
             } elseif ($requestedDrink === "coffee") {
                 return "C:2:0";
             } elseif ($requestedDrink === "orangeJuice") {
