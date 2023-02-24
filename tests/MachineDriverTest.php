@@ -6,6 +6,7 @@ namespace Tests\Kata;
 
 use Kata\FizzBuzz;
 use Kata\MachineDriver;
+use Kata\UserRequest;
 use Kata\UserRequestBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -19,11 +20,17 @@ class MachineDriverTest extends TestCase
         $this->machineDriver = new MachineDriver();
     }
 
-    /** @test */
-    public function make_tea_with_1_sugar_and_a_stick()
+    /** @test  @dataProvider make_drinks */
+    public function make_drinks_test(UserRequest $userRequest, string $expectedCommand)
     {
-        $request = (new UserRequestBuilder())->tea()->withSugar()->build();
-
-        $this->assertEquals("T:1:0", $this->machineDriver->process($request));
+        $this->assertEquals($expectedCommand, $this->machineDriver->process($userRequest));
     }
+
+    private function make_drinks(): array
+    {
+        return [
+            'Drink maker makes 1 tea with 1 sugar and a stick' => [(new UserRequestBuilder())->tea()->withSugar()->build(), "T:1:0"]
+        ];
+    }
+
 }
