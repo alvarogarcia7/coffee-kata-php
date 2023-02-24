@@ -66,4 +66,9 @@ class UserRequestBuilder
         $this->money = $insertedMoney;
         return $this;
     }
+
+    public function orangeJuice(): self
+    {
+        return $this;
+    }
 }
