@@ -72,4 +72,9 @@ class UserRequestBuilder
         $this->drink = "orangeJuice";
         return $this;
     }
+
+    public function extraHot(): self
+    {
+        return $this;
+    }
 }
