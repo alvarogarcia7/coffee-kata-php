@@ -21,8 +21,20 @@ class UserRequestBuilder
         return $this;
     }
 
+    public function chocolate(): self
+    {
+        $this->drink = "chocolate";
+        return $this;
+    }
+
     public function build(): UserRequest
     {
         return new UserRequest();
+    }
+
+    public function withoutSugar(): self
+    {
+        $this->sugar = 0;
+        return $this;
     }
 }
