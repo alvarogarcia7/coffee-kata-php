@@ -9,6 +9,7 @@ class UserRequestBuilder
 
     private int $sugar;
     private string $drink;
+    private string $message = "";
 
     public function __construct()
     {
@@ -35,6 +36,7 @@ class UserRequestBuilder
     {
         $return = new UserRequest();
         $return->drink = $this->drink;
+        $return->message = $this->message;
         return $return;
     }
 
@@ -50,8 +52,10 @@ class UserRequestBuilder
         return $this;
     }
 
-    public function printMessage(string $string): self
+    public function printMessage(string $message): self
     {
+        $this->drink = "message";
+        $this->message = $message;
         return $this;
     }
 }

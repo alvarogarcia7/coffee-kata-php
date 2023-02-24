@@ -6,4 +6,5 @@ namespace Kata;
 class UserRequest
 {
     public $drink;
+    public string $message;
 }

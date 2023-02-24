@@ -7,6 +7,9 @@ class MachineDriver
 {
     public function process(UserRequest $request)
     {
+        if($request->drink === "message"){
+            return "M:{$request->message}";
+        }
         if($request->drink === "chocolate"){
             return "H::";
         } elseif ($request->drink === "coffee"){
