@@ -7,12 +7,16 @@ namespace Kata;
 class UserRequestBuilder
 {
 
+    private int $sugar;
+    private string $drink;
+
     public function __construct()
     {
     }
 
     public function tea(): self
     {
+        $this->drink = "tea";
         return $this;
     }
 
@@ -29,7 +33,9 @@ class UserRequestBuilder
 
     public function build(): UserRequest
     {
-        return new UserRequest();
+        $return = new UserRequest();
+        $return->drink = $this->drink;
+        return $return;
     }
 
     public function withoutSugar(): self
