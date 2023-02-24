@@ -10,6 +10,7 @@ class UserRequestBuilder
     private int $sugar;
     private string $drink;
     private string $message = "";
+    private float $money = 0.0;
 
     public function __construct()
     {
@@ -37,6 +38,7 @@ class UserRequestBuilder
         $return = new UserRequest();
         $return->drink = $this->drink;
         $return->message = $this->message;
+        $return->availableMoney = $this->money;
         return $return;
     }
 
@@ -56,6 +58,12 @@ class UserRequestBuilder
     {
         $this->drink = "message";
         $this->message = $message;
+        return $this;
+    }
+
+    public function withMoney(float $insertedMoney): self
+    {
+        $this->money = $insertedMoney;
         return $this;
     }
 }
