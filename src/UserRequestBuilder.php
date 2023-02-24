@@ -69,6 +69,7 @@ class UserRequestBuilder
 
     public function orangeJuice(): self
     {
+        $this->drink = "orangeJuice";
         return $this;
     }
 }

@@ -14,24 +14,28 @@ class MachineDriver
         $this->validDrinks = [new Drink("tea", 0.4),
             new Drink("coffee", 0.6),
             new Drink("chocolate", 0.5),
+            new Drink("orangeJuice", 0.6),
         ];
     }
 
     public function process(UserRequest $request)
     {
-        if ($request->drink === "message") {
+        $requestedDrink = $request->drink;
+        if ($requestedDrink === "message") {
             return "M:{$request->message}";
         }
-        if ($drink = $this->drinkByName($request->drink)) {
+        if ($drink = $this->drinkByName($requestedDrink)) {
             if ($request->availableMoney < $drink->price) {
                 $missingMoney = $drink->price - $request->availableMoney;
                 return "M:missing-money:{$missingMoney}";
             }
 
-            if ($request->drink === "chocolate") {
+            if ($requestedDrink === "chocolate") {
                 return "H::";
-            } elseif ($request->drink === "coffee") {
+            } elseif ($requestedDrink === "coffee") {
                 return "C:2:0";
+            } elseif ($requestedDrink === "orangeJuice"){
+                return "O::";
             }
             return "T:1:0";
         }
