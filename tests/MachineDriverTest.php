@@ -30,7 +30,8 @@ class MachineDriverTest extends TestCase
     {
         return [
             'Drink maker makes 1 tea with 1 sugar and a stick' => [(new UserRequestBuilder())->tea()->withSugar()->build(), "T:1:0"],
-            'Drink maker makes 1 chocolate with no sugar - and therefore no stick' => [(new UserRequestBuilder())->chocolate()->withoutSugar()->build(), "H::"]
+            'Drink maker makes 1 chocolate with no sugar - and therefore no stick' => [(new UserRequestBuilder())->chocolate()->withoutSugar()->build(), "H::"],
+            'Drink maker makes 1 coffee with 2 sugars and a stick' => [(new UserRequestBuilder())->coffee()->withSugar()->withSugar()->build(), "H::"],
         ];
     }
 

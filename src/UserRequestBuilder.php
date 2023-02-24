@@ -43,4 +43,9 @@ class UserRequestBuilder
         $this->sugar = 0;
         return $this;
     }
+
+    public function coffee(): self
+    {
+        return $this;
+    }
 }
