@@ -34,10 +34,14 @@ class MachineDriver
                 return "H::";
             } elseif ($requestedDrink === "coffee") {
                 return "C:2:0";
-            } elseif ($requestedDrink === "orangeJuice"){
+            } elseif ($requestedDrink === "orangeJuice") {
                 return "O::";
             }
-            return "T:1:0";
+            $drink = "T";
+            if ($request->extraHot) {
+                $drink = "Th";
+            }
+            return "{$drink}:1:0";
         }
         throw new \Exception();
     }

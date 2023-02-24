@@ -11,6 +11,7 @@ class UserRequestBuilder
     private string $drink;
     private string $message = "";
     private float $money = 0.0;
+    private int $extraHot = 0;
 
     public function __construct()
     {
@@ -39,6 +40,7 @@ class UserRequestBuilder
         $return->drink = $this->drink;
         $return->message = $this->message;
         $return->availableMoney = $this->money;
+        $return->extraHot = $this->extraHot;
         return $return;
     }
 
@@ -75,6 +77,7 @@ class UserRequestBuilder
 
     public function extraHot(): self
     {
+        $this->extraHot = 1;
         return $this;
     }
 }
