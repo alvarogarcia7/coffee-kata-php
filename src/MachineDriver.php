@@ -9,6 +9,8 @@ class MachineDriver
     {
         if($request->drink === "chocolate"){
             return "H::";
+        } elseif ($request->drink === "coffee"){
+            return "C:2:0";
         }
         return "T:1:0";
     }
