@@ -3,36 +3,50 @@ declare(strict_types=1);
 
 namespace Kata;
 
+use function PHPUnit\Framework\throwException;
+
 class MachineDriver
 {
+    private array $validDrinks;
+
+    public function __construct()
+    {
+        $this->validDrinks = [new Drink("tea", 0.4),
+            new Drink("coffee", 0.6),
+            new Drink("chocolate", 0.5),
+        ];
+    }
+
     public function process(UserRequest $request)
     {
         if ($request->drink === "message") {
             return "M:{$request->message}";
         }
-        if ($request->drink === "chocolate") {
-            $price = 0.5;
-            if ($request->availableMoney >= $price) {
+        if ($drink = $this->drinkByName($request->drink)) {
+            if ($request->availableMoney < $drink->price) {
+                $missingMoney = $drink->price - $request->availableMoney;
+                return "M:missing-money:{$missingMoney}";
+            }
+
+            if ($request->drink === "chocolate") {
                 return "H::";
-            } else {
-                $missingMoney = $price - $request->availableMoney;
-                return "M:missing-money:{$missingMoney}";
-            }
-        } elseif ($request->drink === "coffee") {
-            $price = 0.6;
-            if ($request->availableMoney >= $price) {
+            } elseif ($request->drink === "coffee") {
                 return "C:2:0";
-            } else {
-                $missingMoney = $price - $request->availableMoney;
-                return "M:missing-money:{$missingMoney}";
+            }
+            return "T:1:0";
+        }
+        throw new \Exception();
+    }
+
+    private function drinkByName(string $drinkName): Drink|null
+    {
+        foreach ($this->validDrinks as $drink) {
+            if ($drinkName === $drink->name) {
+                return $drink;
             }
         }
-        $price = 0.4;
-        if ($request->availableMoney >= $price) {
-            return "T:1:0";
-        } else {
-            $missingMoney = $price - $request->availableMoney;
-            return "M:missing-money:{$missingMoney}";
-        }
+
+        return null;
+
     }
 }
