@@ -12,7 +12,7 @@ class MachineDriver
     public function __construct()
     {
         $this->validDrinks = [new Drink("tea", 0.4, true, ""),
-            new Drink("coffee", 0.6, true, ""),
+            new Drink("coffee", 0.6, true, "C:2:0"),
             new Drink("chocolate", 0.5, true, "H::"),
             new Drink("orangeJuice", 0.6, false, ""),
         ];
@@ -33,7 +33,7 @@ class MachineDriver
             if ($requestedDrink === "chocolate") {
                 return $drink->toCommand($request->extraHot);
             } elseif ($requestedDrink === "coffee") {
-                return "C:2:0";
+                return $drink->toCommand($request->extraHot);
             } elseif ($requestedDrink === "orangeJuice") {
                 return "O::";
             }
