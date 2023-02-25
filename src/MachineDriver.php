@@ -8,7 +8,8 @@ class MachineDriver
     public function __construct(
         private readonly DrinkFactory $drinkFactory,
         private readonly DrinkLog $drinkLog,
-        private readonly BeverageQuantityChecker $beverageQuantityChecker
+        private readonly BeverageQuantityChecker $beverageQuantityChecker,
+        private readonly EmailNotifier $emailNotifier
     )
     {
     }
@@ -28,7 +29,10 @@ class MachineDriver
                 return "M:missing-money:{$missingMoney}";
             }
             $this->drinkLog->append($request, $drink);
-            $this->beverageQuantityChecker->isEmpty($requestedDrink);
+            if($this->beverageQuantityChecker->isEmpty($requestedDrink)){
+                $this->emailNotifier->notifyMissingDrink($requestedDrink);
+                return "M:Shortage of '{$requestedDrink}'. An email has been sent to management";
+            }
             return $drink->toCommand($request->extraHot, $request->sugar);
         }
         throw new \Exception();
