@@ -4,7 +4,7 @@ namespace Kata;
 
 class DrinkLog
 {
-    public function append()
+    public function append(UserRequest $request, Drink $drink)
     {
 
     }

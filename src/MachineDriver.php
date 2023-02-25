@@ -23,6 +23,7 @@ class MachineDriver
                 $missingMoney = $drink->price - $request->availableMoney;
                 return "M:missing-money:{$missingMoney}";
             }
+            $this->drinkLog->append($request, $drink);
             return $drink->toCommand($request->extraHot, $request->sugar);
         }
         throw new \Exception();
