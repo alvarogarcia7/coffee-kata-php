@@ -5,7 +5,10 @@ namespace Kata;
 
 class MachineDriver
 {
-    public function __construct(private readonly DrinkFactory $drinkFactory)
+    public function __construct(
+        private readonly DrinkFactory $drinkFactory,
+        private readonly DrinkLog $drinkLog
+    )
     {
     }
 

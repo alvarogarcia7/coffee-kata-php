@@ -6,6 +6,7 @@ namespace Tests\Kata;
 
 use Kata\Drink;
 use Kata\DrinkFactory;
+use Kata\DrinkLog;
 use Kata\FizzBuzz;
 use Kata\MachineDriver;
 use Kata\UserRequest;
@@ -22,7 +23,7 @@ class MachineDriverTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->machineDriver = new MachineDriver(new DrinkFactory());
+        $this->machineDriver = new MachineDriver(new DrinkFactory(), new DrinkLog());
         $this->prophet = new Prophet();
     }
 
@@ -56,7 +57,7 @@ class MachineDriverTest extends TestCase
     public function the_driver_delegates_the_building_of_the_drink_to_the_factory()
     {
         $drinkFactory = $this->prophet->prophesize(DrinkFactory::class);
-        $this->machineDriver = new MachineDriver($drinkFactory->reveal());
+        $this->machineDriver = new MachineDriver($drinkFactory->reveal(), new DrinkLog());
         $drinkFactory->drinkByName(Argument::any())->willReturn(new Drink('tea', 0.1, true, "T::"));
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
 
@@ -64,6 +65,23 @@ class MachineDriverTest extends TestCase
 
         $drinkFactory->drinkByName("tea")->shouldHaveBeenCalled();
         $this->assertEquals("Th::", $command);
+    }
+
+    /** @test */
+    public function store_the_drink_request_for_statistics()
+    {
+        $drinkFactory = $this->prophet->prophesize(DrinkFactory::class);
+        $drinkLog = $this->prophet->prophesize(DrinkLog::class);
+        $this->machineDriver = new MachineDriver($drinkFactory->reveal(), $drinkLog->reveal());
+        $drink = new Drink('tea', 0.1, true, "T::");
+        $drinkFactory->drinkByName(Argument::any())->willReturn($drink);
+        $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
+
+        $this->machineDriver->process($userRequest);
+
+        $drinkLog->append($userRequest, $drink)->shouldHaveBeenCalled();
+        $this->prophet->checkPredictions();
+        $this->assertTrue(true);
     }
 
     private function process_user_requests_(): array
