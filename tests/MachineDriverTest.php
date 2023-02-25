@@ -37,7 +37,7 @@ class MachineDriverTest extends TestCase
     {
         $drink = new Drink("Any", 0, true, "H::");
 
-        $actualCommand = $drink->toCommand(true);
+        $actualCommand = $drink->toCommand(true, 0);
 
         $this->assertStringStartsWith("Hh:", $actualCommand);
     }
@@ -47,7 +47,7 @@ class MachineDriverTest extends TestCase
     {
         $drink = new Drink("Any", 0, false, "H::");
 
-        $actualCommand = $drink->toCommand(true);
+        $actualCommand = $drink->toCommand(true, 0);
 
         $this->assertStringStartsWith("H:", $actualCommand);
     }

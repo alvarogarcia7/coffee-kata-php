@@ -9,4 +9,5 @@ class UserRequest
     public string $message;
     public float $availableMoney;
     public int $extraHot;
+    public int $sugar;
 }

@@ -13,15 +13,22 @@ class Drink
     {
     }
 
-    public function toCommand($isExtraHot): string
+    public function toCommand($isExtraHot, $sugarLevel): string
     {
-        $commandRepresentation = $this->commandRepresentation;
+        [$drinkRepresentation, $sugarRepresentation, $stickRepresentation] = explode(":", $this->commandRepresentation);
         if($this->canBeExtraHot && $isExtraHot){
-            $parts = explode(":", $this->commandRepresentation);
-            $parts[0] .= "h";
-            $commandRepresentation = implode(":", $parts);
+            $drinkRepresentation .= "h";
         }
+        if ($sugarLevel === 0) {
+            $sugarRepresentation = "";
+            $stickRepresentation = "";
+        }
+        $commandRepresentation = $this->joinRepresentations([$drinkRepresentation, $sugarRepresentation, $stickRepresentation]);
         return $commandRepresentation;
+    }
 
+    private function joinRepresentations($parts): string
+    {
+        return implode(":", $parts);
     }
 }
