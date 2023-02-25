@@ -7,7 +7,8 @@ class MachineDriver
 {
     public function __construct(
         private readonly DrinkFactory $drinkFactory,
-        private readonly DrinkLog $drinkLog
+        private readonly DrinkLog $drinkLog,
+        private readonly BeverageQuantityChecker $beverageQuantityChecker
     )
     {
     }
@@ -27,6 +28,7 @@ class MachineDriver
                 return "M:missing-money:{$missingMoney}";
             }
             $this->drinkLog->append($request, $drink);
+            $this->beverageQuantityChecker->isEmpty($requestedDrink);
             return $drink->toCommand($request->extraHot, $request->sugar);
         }
         throw new \Exception();
