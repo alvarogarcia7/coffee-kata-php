@@ -9,6 +9,9 @@ up:
 
 init: up install-dependencies
 
+bash: up
+	docker-compose exec php bash
+
 install-dependencies: up
 	docker-compose exec php sh -c "composer install"
 
