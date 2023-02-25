@@ -11,7 +11,7 @@ class DrinkLog
 
     public function totalAmountOfMoney(): float
     {
-
+        return 0;
     }
 
 }
