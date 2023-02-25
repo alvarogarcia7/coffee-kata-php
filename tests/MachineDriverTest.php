@@ -121,6 +121,21 @@ class MachineDriverTest extends TestCase
     }
 
     /** @test */
+    public function if_the_drink_cannot_be_made__should_not_be_added_to_drink_log()
+    {
+        $drinkLog = $this->prophet->prophesize(DrinkLog::class);
+        $this->machineDriver = new MachineDriver(new DrinkFactory(), $drinkLog->reveal(), $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+
+        $command = $this->machineDriver->process($userRequest);
+
+        $drinkLog->append(Argument::cetera())->shouldNotHaveBeenCalled();
+        $this->prophet->checkPredictions();
+        $this->assertEquals("M:Shortage of 'tea'. An email has been sent to management", $command);
+    }
+
+    /** @test */
     public function print_the_money_report()
     {
         $this->drinkLog->append(new UserRequest(), new Drink('any', 0.4, false, 'X::'));
