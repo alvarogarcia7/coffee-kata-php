@@ -28,11 +28,11 @@ class MachineDriver
                 $missingMoney = $drink->price - $request->availableMoney;
                 return "M:missing-money:{$missingMoney}";
             }
-            $this->drinkLog->append($request, $drink);
             if($this->beverageQuantityChecker->isEmpty($requestedDrink)){
                 $this->emailNotifier->notifyMissingDrink($requestedDrink);
                 return "M:Shortage of '{$requestedDrink}'. An email has been sent to management";
             }
+            $this->drinkLog->append($request, $drink);
             return $drink->toCommand($request->extraHot, $request->sugar);
         }
         throw new \Exception();
