@@ -5,20 +5,25 @@ declare(strict_types=1);
 namespace Tests\Kata;
 
 use Kata\Drink;
+use Kata\DrinkFactory;
 use Kata\FizzBuzz;
 use Kata\MachineDriver;
 use Kata\UserRequest;
 use Kata\UserRequestBuilder;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Prophecy\Prophet;
 
 class MachineDriverTest extends TestCase
 {
     private MachineDriver $machineDriver;
+    private Prophet $prophet;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->machineDriver = new MachineDriver();
+        $this->machineDriver = new MachineDriver(new DrinkFactory());
+        $this->prophet = new Prophet();
     }
 
     /** @test  @dataProvider process_user_requests_ */
