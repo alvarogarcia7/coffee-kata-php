@@ -19,11 +19,13 @@ class MachineDriverTest extends TestCase
 {
     private MachineDriver $machineDriver;
     private Prophet $prophet;
+    private DrinkLog $drinkLog;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->machineDriver = new MachineDriver(new DrinkFactory(), new DrinkLog());
+        $this->drinkLog = new DrinkLog();
+        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog);
         $this->prophet = new Prophet();
     }
 
@@ -84,6 +86,18 @@ class MachineDriverTest extends TestCase
         $this->assertTrue(true);
     }
 
+
+    /** @test */
+    public function print_the_money_report()
+    {
+        $this->drinkLog->append(new UserRequest(), new Drink('any', 0.4, false, 'X::'));
+        $userRequest = (new UserRequestBuilder())->printMoneyReport()->build();
+
+        $command = $this->machineDriver->process($userRequest);
+
+        $this->assertEquals("$:0.4", $command);
+    }
+
     private function process_user_requests_(): array
     {
         return [
@@ -111,6 +125,9 @@ class MachineDriverTest extends TestCase
 
 //            Message
             'With enough money, Drink maker forwards any message received onto the coffee machine interface for the customer to see' => [(new UserRequestBuilder())->printMessage("message-content")->build(), "M:message-content"],
+
+//            Money Report
+            'Print the report of the money earned' => [(new UserRequestBuilder())->printMoneyReport()->build(), "M:message-content"],
         ];
     }
 
