@@ -23,6 +23,10 @@ class Drink
             $sugarRepresentation = "";
             $stickRepresentation = "";
         }
+        if ($sugarLevel > 0) {
+            $sugarRepresentation = (string) $sugarLevel;
+            $stickRepresentation = "0";
+        }
         $commandRepresentation = $this->joinRepresentations([$drinkRepresentation, $sugarRepresentation, $stickRepresentation]);
         return $commandRepresentation;
     }

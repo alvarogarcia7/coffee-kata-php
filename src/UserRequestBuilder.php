@@ -7,7 +7,7 @@ namespace Kata;
 class UserRequestBuilder
 {
 
-    private int $sugar = 1;
+    private int $sugar = 0;
     private string $drink;
     private string $message = "";
     private float $money = 0.0;
@@ -25,6 +25,7 @@ class UserRequestBuilder
 
     public function withSugar(): self
     {
+        $this->sugar++;
         return $this;
     }
 
