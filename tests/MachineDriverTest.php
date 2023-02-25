@@ -77,6 +77,7 @@ class MachineDriverTest extends TestCase
 //            Chocolate
             'With enough money, Drink maker makes 1 chocolate with no sugar - and therefore no stick' => [(new UserRequestBuilder())->chocolate()->withMoney(0.6)->withoutSugar()->build(), "H::"],
             'With enough money, Drink maker makes 1 chocolate with no sugar (extra hot)' => [(new UserRequestBuilder())->chocolate()->extraHot()->withMoney(0.6)->withoutSugar()->build(), "Hh::"],
+            'With enough money, Drink maker will make an extra hot chocolate with one sugar and a stick' => [(new UserRequestBuilder())->chocolate()->extraHot()->withMoney(0.6)->withSugar()->build(), "Hh:1:0"],
             'Without enough money, Drink maker cannot make a chocolate' => [(new UserRequestBuilder())->chocolate()->withMoney(0.3)->withoutSugar()->build(), "M:missing-money:0.2"],
 
 //            Coffee
