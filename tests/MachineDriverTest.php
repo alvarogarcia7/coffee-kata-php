@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Kata;
 
+use Kata\BeverageQuantityChecker;
 use Kata\Drink;
 use Kata\DrinkFactory;
 use Kata\DrinkLog;
+use Kata\EmailNotifier;
 use Kata\FizzBuzz;
 use Kata\MachineDriver;
 use Kata\UserRequest;
@@ -20,6 +22,8 @@ class MachineDriverTest extends TestCase
     private MachineDriver $machineDriver;
     private Prophet $prophet;
     private DrinkLog $drinkLog;
+    private \Prophecy\Prophecy\ObjectProphecy|BeverageQuantityChecker $mockBeverageQuantityChecker;
+    private EmailNotifier|\Prophecy\Prophecy\ObjectProphecy $mockEmailNotifier;
 
     public function setUp(): void
     {
@@ -27,6 +31,8 @@ class MachineDriverTest extends TestCase
         $this->drinkLog = new DrinkLog();
         $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog);
         $this->prophet = new Prophet();
+        $this->mockBeverageQuantityChecker = $this->prophet->prophesize(BeverageQuantityChecker::class);
+        $this->mockEmailNotifier = $this->prophet->prophesize(EmailNotifier::class);
     }
 
     /** @test  @dataProvider process_user_requests_ */
@@ -82,6 +88,20 @@ class MachineDriverTest extends TestCase
         $this->machineDriver->process($userRequest);
 
         $drinkLog->append($userRequest, $drink)->shouldHaveBeenCalled();
+        $this->prophet->checkPredictions();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function request_if_the_drink_can_be_made()
+    {
+        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+
+        $this->machineDriver->process($userRequest);
+
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->shouldHaveBeenCalled();
         $this->prophet->checkPredictions();
         $this->assertTrue(true);
     }
