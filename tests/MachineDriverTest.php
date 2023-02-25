@@ -52,6 +52,20 @@ class MachineDriverTest extends TestCase
         $this->assertStringStartsWith("H:", $actualCommand);
     }
 
+    /** @test */
+    public function the_driver_delegates_the_building_of_the_drink_to_the_factory()
+    {
+        $drinkFactory = $this->prophet->prophesize(DrinkFactory::class);
+        $this->machineDriver = new MachineDriver($drinkFactory->reveal());
+        $drinkFactory->drinkByName(Argument::any())->willReturn(new Drink('tea', 0.1, true, "T::"));
+        $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
+
+        $command = $this->machineDriver->process($userRequest);
+
+        $drinkFactory->drinkByName("tea")->shouldHaveBeenCalled();
+        $this->assertEquals("Th::", $command);
+    }
+
     private function process_user_requests_(): array
     {
         return [
