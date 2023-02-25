@@ -82,4 +82,10 @@ class UserRequestBuilder
         $this->extraHot = 1;
         return $this;
     }
+
+    public function printMoneyReport(): self
+    {
+        $this->drink = "moneyReport";
+        return $this;
+    }
 }

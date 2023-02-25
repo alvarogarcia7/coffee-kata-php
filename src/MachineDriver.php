@@ -17,6 +17,9 @@ class MachineDriver
         $requestedDrink = $request->drink;
         if ($requestedDrink === "message") {
             return "M:{$request->message}";
+        } elseif ($requestedDrink === "moneyReport"){
+            $totalMoneyEarned = $this->drinkLog->totalAmountOfMoney();
+            return "$:{$totalMoneyEarned}";
         }
         if ($drink = $this->drinkByName($requestedDrink)) {
             if ($request->availableMoney < $drink->price) {

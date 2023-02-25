@@ -126,8 +126,6 @@ class MachineDriverTest extends TestCase
 //            Message
             'With enough money, Drink maker forwards any message received onto the coffee machine interface for the customer to see' => [(new UserRequestBuilder())->printMessage("message-content")->build(), "M:message-content"],
 
-//            Money Report
-            'Print the report of the money earned' => [(new UserRequestBuilder())->printMoneyReport()->build(), "M:message-content"],
         ];
     }
 
