@@ -106,6 +106,19 @@ class MachineDriverTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /** @test */
+    public function if_the_drink_cannot_be_made__notify_the_user_about_it()
+    {
+        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+
+        $command = $this->machineDriver->process($userRequest);
+
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->shouldHaveBeenCalled();
+        $this->prophet->checkPredictions();
+        $this->assertEquals("M:Shortage of 'tea'. An email has been sent to management", $command);
+    }
 
     /** @test */
     public function print_the_money_report()
