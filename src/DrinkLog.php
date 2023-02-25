@@ -9,4 +9,9 @@ class DrinkLog
 
     }
 
+    public function totalAmountOfMoney(): float
+    {
+
+    }
+
 }
