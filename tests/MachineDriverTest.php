@@ -9,7 +9,6 @@ use Kata\Drink;
 use Kata\DrinkFactory;
 use Kata\DrinkLog;
 use Kata\EmailNotifier;
-use Kata\FizzBuzz;
 use Kata\MachineDriver;
 use Kata\UserRequest;
 use Kata\UserRequestBuilder;
