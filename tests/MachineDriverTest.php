@@ -30,13 +30,13 @@ class MachineDriverTest extends TestCase
     {
         parent::setUp();
         $this->prophet = new Prophet();
-        $this->mockBeverageQuantityChecker = $this->prophet->prophesize(BeverageQuantityChecker::class);
-        $this->mockEmailNotifier = $this->prophet->prophesize(EmailNotifier::class);
-//        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
 
         $this->machineDriverBuilder = MachineDriverBuilder::aNew();
+        $this->mockBeverageQuantityChecker = $this->machineDriverBuilder->getBeverageQuantityChecker();
+        $this->mockEmailNotifier = $this->machineDriverBuilder->getEmailNotifier();
+
         $this->drinkLog = $this->machineDriverBuilder->getDrinkLog();
-        $this->machineDriver = MachineDriverBuilder::aNew()->build();
+        $this->machineDriver = $this->machineDriverBuilder->build();
     }
 
     /** @test  @dataProvider process_user_requests_ */
@@ -99,13 +99,12 @@ class MachineDriverTest extends TestCase
     /** @test */
     public function request_if_the_drink_can_be_made()
     {
-        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
-        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+        $this->mockBeverageQuantityChecker->isEmpty((string)Argument::any())->willReturn(true);
 
         $this->machineDriver->process($userRequest);
 
-        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->shouldHaveBeenCalled();
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::cetera())->shouldHaveBeenCalled();
         $this->prophet->checkPredictions();
         $this->assertTrue(true);
     }
@@ -113,7 +112,6 @@ class MachineDriverTest extends TestCase
     /** @test */
     public function if_the_drink_cannot_be_made__notify_the_user_about_it()
     {
-        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
         $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
 
