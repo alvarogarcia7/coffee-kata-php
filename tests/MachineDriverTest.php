@@ -14,6 +14,7 @@ use Kata\UserRequest;
 use Kata\UserRequestBuilder;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
 
 class MachineDriverTest extends TestCase
@@ -21,17 +22,21 @@ class MachineDriverTest extends TestCase
     private MachineDriver $machineDriver;
     private Prophet $prophet;
     private DrinkLog $drinkLog;
-    private \Prophecy\Prophecy\ObjectProphecy|BeverageQuantityChecker $mockBeverageQuantityChecker;
-    private EmailNotifier|\Prophecy\Prophecy\ObjectProphecy $mockEmailNotifier;
+    private ObjectProphecy|BeverageQuantityChecker $mockBeverageQuantityChecker;
+    private EmailNotifier|ObjectProphecy $mockEmailNotifier;
+    private MachineDriverBuilder $machineDriverBuilder;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->drinkLog = new DrinkLog();
         $this->prophet = new Prophet();
         $this->mockBeverageQuantityChecker = $this->prophet->prophesize(BeverageQuantityChecker::class);
         $this->mockEmailNotifier = $this->prophet->prophesize(EmailNotifier::class);
-        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+//        $this->machineDriver = new MachineDriver(new DrinkFactory(), $this->drinkLog, $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+
+        $this->machineDriverBuilder = MachineDriverBuilder::aNew();
+        $this->drinkLog = $this->machineDriverBuilder->getDrinkLog();
+        $this->machineDriver = MachineDriverBuilder::aNew()->build();
     }
 
     /** @test  @dataProvider process_user_requests_ */
@@ -137,7 +142,10 @@ class MachineDriverTest extends TestCase
     /** @test */
     public function print_the_money_report()
     {
-        $this->drinkLog->append(new UserRequest(), new Drink('any', 0.4, false, 'X::'));
+        $drinkLog = new DrinkLog();
+        $this->machineDriverBuilder->drinkLog($drinkLog);
+        $drinkLog->append(new UserRequest(), new Drink('any', 0.4, false, 'X::'));
+        $this->machineDriver = $this->machineDriverBuilder->build();
         $userRequest = (new UserRequestBuilder())->printMoneyReport()->build();
 
         $command = $this->machineDriver->process($userRequest);
