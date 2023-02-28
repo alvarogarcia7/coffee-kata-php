@@ -113,8 +113,7 @@ class MachineDriverTest extends TestCase
 
         $command = $this->machineDriver->process($userRequest);
 
-        $emailNotifier = $this->machineDriverBuilder->getEmailNotifier();
-        $emailNotifier->notifyMissingDrink('tea')->shouldHaveBeenCalled();
+        $this->machineDriverBuilder->getEmailNotifier()->notifyMissingDrink('tea')->shouldHaveBeenCalled();
         $this->prophet->checkPredictions();
         $this->assertEquals("M:Shortage of 'tea'. An email has been sent to management", $command);
     }
