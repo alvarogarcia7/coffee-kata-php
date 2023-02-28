@@ -23,7 +23,6 @@ class MachineDriverTest extends TestCase
     private Prophet $prophet;
     private DrinkLog $drinkLog;
     private ObjectProphecy|BeverageQuantityChecker $mockBeverageQuantityChecker;
-    private EmailNotifier|ObjectProphecy $mockEmailNotifier;
     private MachineDriverBuilder $machineDriverBuilder;
 
     public function setUp(): void
@@ -33,7 +32,6 @@ class MachineDriverTest extends TestCase
 
         $this->machineDriverBuilder = MachineDriverBuilder::aNew();
         $this->mockBeverageQuantityChecker = $this->machineDriverBuilder->getBeverageQuantityChecker();
-        $this->mockEmailNotifier = $this->machineDriverBuilder->getEmailNotifier();
 
         $this->drinkLog = $this->machineDriverBuilder->getDrinkLog();
         $this->machineDriver = $this->machineDriverBuilder->build();
@@ -84,7 +82,7 @@ class MachineDriverTest extends TestCase
     {
         $drinkFactory = $this->prophet->prophesize(DrinkFactory::class);
         $drinkLog = $this->prophet->prophesize(DrinkLog::class);
-        $this->machineDriver = new MachineDriver($drinkFactory->reveal(), $drinkLog->reveal(), $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $this->machineDriver = $this->machineDriverBuilder->drinkLog($drinkLog)->drinkFactory($drinkFactory)->build();
         $drink = new Drink('tea', 0.1, true, "T::");
         $drinkFactory->drinkByName(Argument::any())->willReturn($drink);
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
@@ -117,7 +115,8 @@ class MachineDriverTest extends TestCase
 
         $command = $this->machineDriver->process($userRequest);
 
-        $this->mockEmailNotifier->notifyMissingDrink('tea')->shouldHaveBeenCalled();
+        $emailNotifier = $this->machineDriverBuilder->getEmailNotifier();
+        $emailNotifier->notifyMissingDrink('tea')->shouldHaveBeenCalled();
         $this->prophet->checkPredictions();
         $this->assertEquals("M:Shortage of 'tea'. An email has been sent to management", $command);
     }
