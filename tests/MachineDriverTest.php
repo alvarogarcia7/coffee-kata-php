@@ -126,7 +126,7 @@ class MachineDriverTest extends TestCase
     public function if_the_drink_cannot_be_made__should_not_be_added_to_drink_log()
     {
         $drinkLog = $this->prophet->prophesize(DrinkLog::class);
-        $this->machineDriver = new MachineDriver(new DrinkFactory(), $drinkLog->reveal(), $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $this->machineDriver = $this->machineDriverBuilder->drinkLog($drinkLog)->build();
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
         $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
 
