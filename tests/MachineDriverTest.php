@@ -69,7 +69,7 @@ class MachineDriverTest extends TestCase
     public function the_driver_delegates_the_building_of_the_drink_to_the_factory()
     {
         $drinkFactory = $this->prophet->prophesize(DrinkFactory::class);
-        $this->machineDriver = new MachineDriver($drinkFactory->reveal(), new DrinkLog(), $this->mockBeverageQuantityChecker->reveal(), $this->mockEmailNotifier->reveal());
+        $this->machineDriver = $this->machineDriverBuilder->drinkFactory($drinkFactory)->build();
         $drinkFactory->drinkByName(Argument::any())->willReturn(new Drink('tea', 0.1, true, "T::"));
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
 
