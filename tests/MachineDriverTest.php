@@ -21,7 +21,6 @@ class MachineDriverTest extends TestCase
 {
     private MachineDriver $machineDriver;
     private Prophet $prophet;
-    private DrinkLog $drinkLog;
     private ObjectProphecy|BeverageQuantityChecker $mockBeverageQuantityChecker;
     private MachineDriverBuilder $machineDriverBuilder;
 
@@ -33,7 +32,6 @@ class MachineDriverTest extends TestCase
         $this->machineDriverBuilder = MachineDriverBuilder::aNew();
         $this->mockBeverageQuantityChecker = $this->machineDriverBuilder->getBeverageQuantityChecker();
 
-        $this->drinkLog = $this->machineDriverBuilder->getDrinkLog();
         $this->machineDriver = $this->machineDriverBuilder->build();
     }
 
