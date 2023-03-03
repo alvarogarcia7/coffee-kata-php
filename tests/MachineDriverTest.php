@@ -99,7 +99,7 @@ class MachineDriverTest extends TestCase
 
         $this->machineDriver->process($userRequest);
 
-        $this->mockBeverageQuantityChecker->isEmpty(Argument::cetera())->shouldHaveBeenCalled();
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::type('string'))->shouldHaveBeenCalled();
         $this->prophet->checkPredictions();
         $this->assertTrue(true);
     }
@@ -108,7 +108,7 @@ class MachineDriverTest extends TestCase
     public function if_the_drink_cannot_be_made__notify_the_user_about_it()
     {
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
-        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::type('string'))->willReturn(true);
 
         $command = $this->machineDriver->process($userRequest);
 
@@ -123,7 +123,7 @@ class MachineDriverTest extends TestCase
         $drinkLog = $this->prophet->prophesize(DrinkLog::class);
         $this->machineDriver = $this->machineDriverBuilder->drinkLog($drinkLog)->build();
         $userRequest = (new UserRequestBuilder())->tea()->withMoney(0.4)->extraHot()->build();
-        $this->mockBeverageQuantityChecker->isEmpty(Argument::any())->willReturn(true);
+        $this->mockBeverageQuantityChecker->isEmpty(Argument::type('string'))->willReturn(true);
 
         $command = $this->machineDriver->process($userRequest);
 
