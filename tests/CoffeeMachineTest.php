@@ -25,6 +25,13 @@ class CoffeeMachineTest extends TestCase
         $this->assertEquals($expected, $this->coffeeMachine->process($inputBuilder->build()));
     }
 
+    /** @test */
+    public function should_make_a_drink_with_zero_sugar()
+    {
+        $input = $this->newBuilder()->chocolate()->sugar(0);
+        $this->assertStringEndsWith("::", $this->coffeeMachine->process($input->build()));
+    }
+
     public function acceptance_tests_drinks()
     {
         return [
