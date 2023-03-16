@@ -32,6 +32,16 @@ class CoffeeMachineTest extends TestCase
         $this->assertStringEndsWith("::", $this->coffeeMachine->process($input->build()));
     }
 
+    /** @test */
+    public function should_include_a_stick_when_one_or_more_sugars()
+    {
+        $input = $this->newBuilder()->chocolate()->sugar(1);
+        $this->assertStringEndsWith(":0", $this->coffeeMachine->process($input->build()));
+
+        $input = $this->newBuilder()->chocolate()->sugar(2);
+        $this->assertStringEndsWith(":0", $this->coffeeMachine->process($input->build()));
+    }
+
     public function acceptance_tests_drinks()
     {
         return [
