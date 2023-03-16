@@ -49,4 +49,9 @@ class UserRequestBuilder
         $this->sugar = $value;
         return $this;
     }
+
+    public function money(float $value): self
+    {
+        return $this;
+    }
 }

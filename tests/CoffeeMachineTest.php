@@ -45,6 +45,7 @@ class CoffeeMachineTest extends TestCase
     public function acceptance_tests_drinks()
     {
         return [
+            'Drink cannot make any drink if the inserted money is not enough' => [$this->newBuilder()->tea()->money(0.1)->sugar(1), "M:money-missing:0.3"],
             'Drink maker makes 1 tea with 1 sugar and a stick' => [$this->newBuilder()->tea()->sugar(1), "T:1:0"],
             'Drink maker makes 1 chocolate with no sugar - and therefore no stick' => [$this->newBuilder()->chocolate()->sugar(0), "H::"],
             'Drink maker makes 1 coffee with 2 sugars and a stick' => [$this->newBuilder()->coffee()->sugar(2), "C:2:0"],
