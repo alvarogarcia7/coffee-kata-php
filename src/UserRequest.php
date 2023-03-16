@@ -1,0 +1,15 @@
+<?php
+
+namespace Kata;
+
+class UserRequest
+{
+    public function __construct(
+        public readonly string $drink,
+        public readonly int $sugar
+    )
+    {
+
+    }
+
+}
