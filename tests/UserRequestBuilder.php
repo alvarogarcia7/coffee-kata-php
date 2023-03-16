@@ -56,4 +56,10 @@ class UserRequestBuilder
         $this->money = $value;
         return $this;
     }
+
+    public function orangeJuice(): self
+    {
+        $this->drink = "orangejuice";
+        return $this;
+    }
 }

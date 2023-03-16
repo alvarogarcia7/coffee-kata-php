@@ -15,6 +15,7 @@ class CoffeeMachine
             new Drink("chocolate", "H", 0.5),
             new Drink("coffee", "C", 0.6),
             new Drink("tea", "T", 0.4),
+            new Drink("orangejuice", "O", 0.6),
         ]);
     }
 
