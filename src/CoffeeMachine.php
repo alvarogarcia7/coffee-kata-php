@@ -17,6 +17,6 @@ class CoffeeMachine
         } elseif ($input->drink === "tea") {
             return "T:1:0";
         }
-
+        throw new \Exception("This request is not supported: $input");
     }
 }
