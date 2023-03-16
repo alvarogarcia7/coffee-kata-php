@@ -17,8 +17,9 @@ class CoffeeMachine
         } elseif ($input->drink === "coffee") {
             $drinkCommand = "C";
         } elseif ($input->drink === "tea") {
-            if($input->insertedMoney < 0.4){
-                $missingAmount = 0.4 - $input->insertedMoney;
+            $teaPrice = 0.4;
+            if ($input->insertedMoney < $teaPrice) {
+                $missingAmount = $teaPrice - $input->insertedMoney;
                 return "M:money-missing:{$missingAmount}";
             }
             $drinkCommand = "T";
