@@ -18,14 +18,14 @@ class CoffeeMachineTest extends TestCase
     }
 
     /** @test
-     * @dataProvider drinks
+     * @dataProvider acceptance_tests_drinks
      */
-    public function make_tea_with_a_sugar_and_a_stick(UserRequestBuilder $inputBuilder, string $expected)
+    public function acceptance_tests(UserRequestBuilder $inputBuilder, string $expected)
     {
         $this->assertEquals($expected, $this->coffeeMachine->process($inputBuilder->build()));
     }
 
-    public function drinks()
+    public function acceptance_tests_drinks()
     {
         return [
             'Drink maker makes 1 tea with 1 sugar and a stick' => [$this->newBuilder()->tea()->sugar(1), "T:1:0"],
