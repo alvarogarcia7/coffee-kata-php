@@ -20,34 +20,27 @@ class CoffeeMachine
 
     public function process(UserRequest $input)
     {
-        $drinkCommand = "";
-
         if ($input->drink === "message") {
             return "M:message-content";
-        } elseif ($input->drink === "chocolate") {
-            $drinkCommand = "H";
-        } elseif ($input->drink === "coffee") {
-            $drinkCommand = "C";
-        } elseif ($input->drink === "tea") {
-            if($drink = $this->drinkRepository->findByName($input->drink)){
-                $teaPrice = $drink->price;
-                if ($input->insertedMoney < $teaPrice) {
-                    $missingAmount = $teaPrice - $input->insertedMoney;
-                    return "M:money-missing:{$missingAmount}";
-                }
-                $drinkCommand = $drink->shortHand;
-            }
         }
 
-        $stickCommand = "";
+        if (!$drink = $this->drinkRepository->findByName($input->drink)) {
+            return "";
+        }
+
+        $drinkPrice = $drink->price;
+        if ($input->insertedMoney < $drinkPrice) {
+            $missingAmount = $drinkPrice - $input->insertedMoney;
+            return "M:money-missing:{$missingAmount}";
+        }
+        $drinkCommand = $drink->shortHand;
+
         $sugarCommand = $input->sugar;
-        if ("" != $drinkCommand) {
-            $stickCommand = "";
-            if ($sugarCommand === 0) {
-                $sugarCommand = "";
-            } else {
-                $stickCommand = "0";
-            }
+        $stickCommand = "";
+        if ($sugarCommand === 0) {
+            $sugarCommand = "";
+        } else {
+            $stickCommand = "0";
         }
 
         return implode(":", [$drinkCommand, $sugarCommand, $stickCommand]);
