@@ -11,6 +11,7 @@ class UserRequestBuilder
     private int $sugar = 0;
     private string $message;
     private float $money = 1.0;
+    private bool $extraHot = false;
 
     public function __construct()
     {
@@ -18,7 +19,7 @@ class UserRequestBuilder
 
     public function build(): UserRequest
     {
-        return new UserRequest($this->drink, $this->sugar, $this->money);
+        return new UserRequest($this->drink, $this->sugar, $this->money, $this->extraHot);
     }
 
     public function tea(): self
@@ -60,6 +61,12 @@ class UserRequestBuilder
     public function orangeJuice(): self
     {
         $this->drink = "orangejuice";
+        return $this;
+    }
+
+    public function extraHot(): self
+    {
+        $this->extraHot = true;
         return $this;
     }
 }

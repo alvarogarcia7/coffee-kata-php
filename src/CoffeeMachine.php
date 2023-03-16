@@ -12,10 +12,10 @@ class CoffeeMachine
     public function __construct()
     {
         $this->drinkRepository = new DrinkRepository([
-            new Drink("chocolate", "H", 0.5),
-            new Drink("coffee", "C", 0.6),
-            new Drink("tea", "T", 0.4),
-            new Drink("orangejuice", "O", 0.6),
+            new Drink("chocolate", "H", 0.5, true),
+            new Drink("coffee", "C", 0.6, true),
+            new Drink("tea", "T", 0.4, true),
+            new Drink("orangejuice", "O", 0.6, false),
         ]);
     }
 
@@ -35,6 +35,10 @@ class CoffeeMachine
             return "M:money-missing:{$missingAmount}";
         }
         $drinkCommand = $drink->shortHand;
+
+        if ($drink->supportsExtraHot && $input->extraHot) {
+            $drinkCommand .= 'h';
+        }
 
         $sugarCommand = $input->sugar;
         $stickCommand = "";

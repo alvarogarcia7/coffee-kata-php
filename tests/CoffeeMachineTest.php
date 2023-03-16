@@ -49,7 +49,7 @@ class CoffeeMachineTest extends TestCase
             'Drink maker makes 1 tea with 1 sugar and a stick' => [$this->newBuilder()->tea()->sugar(1), "T:1:0"],
             'Drink maker makes 1 chocolate with no sugar - and therefore no stick' => [$this->newBuilder()->chocolate()->sugar(0), "H::"],
             'Drink maker makes 1 coffee with 2 sugars and a stick' => [$this->newBuilder()->coffee()->sugar(2), "C:2:0"],
-            'Drink maker will make an extra hot coffee with no sugar' => [$this->newBuilder()->coffee(), "Ch::"],
+            'Drink maker will make an extra hot coffee with no sugar' => [$this->newBuilder()->coffee()->extraHot(), "Ch::"],
             'Drink maker will make one orange juice' => [$this->newBuilder()->orangeJuice(), "O::"],
             'Drink maker forwards any message received onto the coffee machine interface for the customer to see' => [$this->newBuilder()->message("message-content"), "M:message-content"]
         ];
