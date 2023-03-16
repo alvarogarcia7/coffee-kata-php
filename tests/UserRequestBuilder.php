@@ -1,6 +1,8 @@
 <?php
 
-namespace Kata;
+namespace Tests\Kata;
+
+use Kata\UserRequest;
 
 class UserRequestBuilder
 {
