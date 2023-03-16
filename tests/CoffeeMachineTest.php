@@ -42,6 +42,13 @@ class CoffeeMachineTest extends TestCase
         $this->assertStringEndsWith(":0", $this->coffeeMachine->process($input->build()));
     }
 
+    /** @test */
+    public function should_not_make_extra_hot_drinks_for_drinks_that_do_not_support_extra_hot()
+    {
+        $input = $this->newBuilder()->orangeJuice()->extraHot();
+        $this->assertStringNotContainsString("h", $this->coffeeMachine->process($input->build()));
+    }
+
     public function acceptance_tests_drinks()
     {
         return [
