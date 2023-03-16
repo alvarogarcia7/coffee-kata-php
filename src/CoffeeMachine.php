@@ -6,6 +6,18 @@ namespace Kata;
 
 class CoffeeMachine
 {
+
+    private DrinkRepository $drinkRepository;
+
+    public function __construct()
+    {
+        $this->drinkRepository = new DrinkRepository([
+            new Drink("chocolate", "H", 0.5),
+            new Drink("coffee", "C", 0.6),
+            new Drink("tea", "T", 0.4),
+        ]);
+    }
+
     public function process(UserRequest $input)
     {
         $drinkCommand = "";
@@ -17,12 +29,14 @@ class CoffeeMachine
         } elseif ($input->drink === "coffee") {
             $drinkCommand = "C";
         } elseif ($input->drink === "tea") {
-            $teaPrice = 0.4;
-            if ($input->insertedMoney < $teaPrice) {
-                $missingAmount = $teaPrice - $input->insertedMoney;
-                return "M:money-missing:{$missingAmount}";
+            if($drink = $this->drinkRepository->findByName($input->drink)){
+                $teaPrice = $drink->price;
+                if ($input->insertedMoney < $teaPrice) {
+                    $missingAmount = $teaPrice - $input->insertedMoney;
+                    return "M:money-missing:{$missingAmount}";
+                }
+                $drinkCommand = $drink->shortHand;
             }
-            $drinkCommand = "T";
         }
 
         $stickCommand = "";
