@@ -10,6 +10,7 @@ class UserRequestBuilder
     private string $drink;
     private int $sugar = 0;
     private string $message;
+    private float $money = 1.0;
 
     public function __construct()
     {
@@ -17,7 +18,7 @@ class UserRequestBuilder
 
     public function build(): UserRequest
     {
-        return new UserRequest($this->drink, $this->sugar);
+        return new UserRequest($this->drink, $this->sugar, $this->money);
     }
 
     public function tea(): self
@@ -52,6 +53,7 @@ class UserRequestBuilder
 
     public function money(float $value): self
     {
+        $this->money = $value;
         return $this;
     }
 }
