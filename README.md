@@ -16,7 +16,13 @@ Instructions:
 * As autoload: `/app/vendor/autoload.php`
 * Run and debug tests should work.
 
-## Time of the iterations
+## Runs
+
+There are multiple times that I've practiced this kata (multiple runs).
+
+See branches `run/1`, `run/2`. There might be more.
+
+## Time of the iterations (run/1)
 
 ```
 ➜  coffee-machine-kata-php git:(master) f log --format="%ad %s" | grep -n iteration
