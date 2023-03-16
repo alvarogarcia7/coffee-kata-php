@@ -6,7 +6,7 @@ class UserRequestBuilder
 {
 
     private string $drink;
-    private int $sugar;
+    private int $sugar = 0;
     private string $message;
 
     public function __construct()
